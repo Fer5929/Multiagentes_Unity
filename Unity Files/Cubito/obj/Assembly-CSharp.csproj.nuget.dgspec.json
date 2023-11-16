@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/fernanda/Desktop/Oct 27/Multiagentes_bloque/Unity Files/Cubito/Assembly-CSharp.csproj": {}
+    "/Users/fernanda/Desktop/Oct 27/Multiagentes_bloque/Multiagentes_Unity/Unity Files/Cubito/Assembly-CSharp.csproj": {}
   },
   "projects": {
-    "/Users/fernanda/Desktop/Oct 27/Multiagentes_bloque/Unity Files/Cubito/Assembly-CSharp.csproj": {
+    "/Users/fernanda/Desktop/Oct 27/Multiagentes_bloque/Multiagentes_Unity/Unity Files/Cubito/Assembly-CSharp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/fernanda/Desktop/Oct 27/Multiagentes_bloque/Unity Files/Cubito/Assembly-CSharp.csproj",
+        "projectUniqueName": "/Users/fernanda/Desktop/Oct 27/Multiagentes_bloque/Multiagentes_Unity/Unity Files/Cubito/Assembly-CSharp.csproj",
         "projectName": "Assembly-CSharp",
-        "projectPath": "/Users/fernanda/Desktop/Oct 27/Multiagentes_bloque/Unity Files/Cubito/Assembly-CSharp.csproj",
+        "projectPath": "/Users/fernanda/Desktop/Oct 27/Multiagentes_bloque/Multiagentes_Unity/Unity Files/Cubito/Assembly-CSharp.csproj",
         "packagesPath": "/Users/fernanda/.nuget/packages/",
-        "outputPath": "/Users/fernanda/Desktop/Oct 27/Multiagentes_bloque/Unity Files/Cubito/obj/",
+        "outputPath": "/Users/fernanda/Desktop/Oct 27/Multiagentes_bloque/Multiagentes_Unity/Unity Files/Cubito/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/fernanda/.nuget/NuGet/NuGet.Config"
