@@ -26,10 +26,8 @@ public class Apply_transforms : MonoBehaviour
         vertices = mesh.vertices;
 
         //Create a copy to testing the vertices
-        newVertices = new Vector3 [vertices.Length];
-        for (int i = 0; i<vertices.Length; i++){
-            newVertices[i] = vertices[i];
-        }
+        newVertices = new Vector3[vertices.Length];
+        System.Array.Copy(vertices, newVertices, vertices.Length);
 
         //Intancia las ruedas 
         for(int i = 0; i<wheel.Length; i++){
@@ -39,14 +37,12 @@ public class Apply_transforms : MonoBehaviour
             wheel[i].mesh = temp.GetComponentInChildren<MeshFilter>().mesh;
             wheel[i].vertices = wheel[i].mesh.vertices;
             wheel[i].newVertices = new Vector3[wheel[i].vertices.Length];
-            for(int j = 0; j<wheel[i].vertices.Length; j++){ //Create a copy of the vertices
-                wheel[i].newVertices[j] = wheel[i].vertices[j];
-            }
+            System.Array.Copy(wheel[i].vertices, wheel[i].newVertices, wheel[i].vertices.Length);
         }
 
 
     }
-
+    
     // Update is called once per frame
     void Update()
     {
@@ -59,8 +55,11 @@ public class Apply_transforms : MonoBehaviour
         Matrix4x4 move = HW_Transforms.TranslationMat(displacement.x *Time.time,
                                                       displacement.y *Time.time,
                                                       displacement.z *Time.time);
+
+        angle =Mathf.Atan2(displacement.z, displacement.x) * Mathf.Rad2Deg;
+        
         Matrix4x4 rotate = HW_Transforms.RotateMat(angle, rotationAXIS);
-        Matrix4x4 composite = rotate * move;
+        Matrix4x4 composite =  move*rotate;
         //en unity se lee al revés ya que se habla de operaciones con matrices por lo tanto composite se mueve y luego rota
 
         //matrices para las ruedas 
