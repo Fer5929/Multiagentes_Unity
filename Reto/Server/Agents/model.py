@@ -1,7 +1,7 @@
 from mesa import DataCollector, Model
 from mesa.time import RandomActivation
 from mesa.space import MultiGrid
-from trafficBase.agent import Road, Traffic_Light, Obstacle, Destination, Car
+from agent import Road, Traffic_Light, Obstacle, Destination, Car
 import json
 import random
 
@@ -15,13 +15,13 @@ class CityModel(Model):
     def __init__(self, N, timetogenerate, timecounter = 0):
 
         # Load the map dictionary. The dictionary maps the characters in the map file to the corresponding agent.
-        dataDictionary = json.load(open("static/city_files/mapDictionary.json"))
+        dataDictionary = json.load(open("city_files/mapDictionary.json"))
         self.timetogenerate = timetogenerate
         self.time_counter = timecounter  # Counter to keep track of the steps
         self.traffic_lights = []
 
         # Load the map file. The map file is a text file where each character represents an agent.
-        with open('static/city_files/tl.txt') as baseFile:
+        with open('city_files/tl.txt') as baseFile:
             lines = baseFile.readlines()
             self.width = len(lines[0])-1
             self.height = len(lines)
@@ -63,12 +63,50 @@ class CityModel(Model):
             self.schedule.add(agent)  
             self.grid.place_agent(agent, corner)
 
-        
-
-
         self.num_agents = N
         self.running = True
 
+        #place N cars in the grid randomly if there is only road at the cell
+       
+
+        # ...
+
+        class CityModel(Model):
+            """ 
+                Creates a model based on a city map.
+
+                Args:
+                    N: Number of agents in the simulation
+                    timetogenerate: Number of steps to generate a new car
+            """
+            def __init__(self, N, timetogenerate):
+                # ...
+
+                self.timetogenerate = timetogenerate
+                self.time_counter = 0  # Counter to keep track of the steps
+
+                # ...
+
+            def step(self):
+                '''Advance the model by one step.'''
+                self.schedule.step()
+
+                # Increment the time counter
+                self.time_counter += 1
+
+                # Check if it's time to generate a new car
+                if self.time_counter % self.timetogenerate == 0:
+                    # Get a random corner
+                    corner = [(1, 1), (1, self.height - 2), (self.width - 2, 1), (self.width - 1, self.height - 2)]
+        
+                    # Create a new car agent
+                    agent = Car(random.choice(corner), self)
+                    self.schedule.add(agent)  
+                    self.grid.place_agent(agent, corner)
+     
+
+
+      
         #self.datacollector = DataCollector(
          #   agentreporters={"Cars":lambda m: sum(1 for agent in m.schedule.agents if isinstance(agent, Car))})
 
@@ -79,8 +117,7 @@ class CityModel(Model):
         self.schedule.step()
         # Increment the time counter
         self.time_counter += 1
-        agentPositions = [a for a, (x, z) in self.grid.coord_iter() if isinstance(a, trafficBase.agent.Car)]
-        print(agentPositions)
+
         # Check if it's time to generate a new car
         if self.time_counter % self.timetogenerate == 0:
             # Get a random corner

@@ -1,5 +1,5 @@
-from agent import *
-from model import CityModel
+from trafficBase.agent import *
+from trafficBase.model import CityModel
 from mesa.visualization import CanvasGrid, BarChartModule
 from mesa.visualization import ModularServer
 
@@ -46,7 +46,7 @@ def agent_portrayal(agent):
 width = 0
 height = 0
 
-with open('city_files/tl.txt') as baseFile:
+with open('static/city_files/tl.txt') as baseFile:
     lines = baseFile.readlines()
     width = len(lines[0])-1
     height = len(lines)

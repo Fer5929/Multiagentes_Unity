@@ -65,7 +65,7 @@ public class AgentController : MonoBehaviour
     string serverUrl = "http://localhost:8585";
     string getAgentsEndpoint = "/getAgents";
     string getLightsEndpoint = "/getLights";
-    string getObstaculesEndPoint="/getObstacules";
+    
     string sendConfigEndpoint = "/init";
     string updateEndpoint = "/update";
 
@@ -73,7 +73,7 @@ public class AgentController : MonoBehaviour
 
     private int randomCar;
 
-    AgentsData agentsData,obstaculeData;
+    AgentsData agentsData;
 
     TrafficData lightsData;
 
@@ -89,8 +89,8 @@ public class AgentController : MonoBehaviour
 
     
     //public GameObject agentPrefab, lightPrefab, floor;
-    public GameObject lightPrefab, floor;
-    public int NAgents, width, height;
+    public GameObject lightPrefab;
+    public int timetogenerate, timecounter;
     public float timeToUpdate = 5.0f;
     private float timer, dt;
 
@@ -105,8 +105,7 @@ public class AgentController : MonoBehaviour
         agents = new Dictionary<string, GameObject>();
         lights = new Dictionary<string, GameObject>();
 
-        floor.transform.localScale = new Vector3((float)width/10, 1, (float)height/10);
-        floor.transform.localPosition = new Vector3((float)width/2-0.5f, 0, (float)height/2-0.5f);
+        
         
         timer = timeToUpdate;
 
@@ -155,7 +154,7 @@ public class AgentController : MonoBehaviour
         {
             StartCoroutine(GetAgentsData());
             StartCoroutine(GetLightsData());
-            StartCoroutine(GetObstaculeData());
+            
         }
     }
 
@@ -163,9 +162,9 @@ public class AgentController : MonoBehaviour
     {
         WWWForm form = new WWWForm();
 
-        form.AddField("NAgents", NAgents.ToString());
-        form.AddField("width", width.ToString());
-        form.AddField("height", height.ToString());
+        form.AddField("timetogenerate", timetogenerate.ToString());
+        form.AddField("timecounter", timecounter.ToString());
+        
 
         UnityWebRequest www = UnityWebRequest.Post(serverUrl + sendConfigEndpoint, form);
         www.SetRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -180,10 +179,10 @@ public class AgentController : MonoBehaviour
         {
             Debug.Log("Configuration upload complete!");
             Debug.Log("Getting Agents positions");
-            Debug.Log("Getting Obstacules positions");
+            
             StartCoroutine(GetAgentsData());
             StartCoroutine(GetLightsData());
-            StartCoroutine(GetObstaculeData());
+            
         }
     }
 
@@ -276,22 +275,6 @@ public class AgentController : MonoBehaviour
         if(!lightsStarted) lightsStarted = true;
     }
 }
+}
 
-    IEnumerator GetObstaculeData()
-    {
-         UnityWebRequest www = UnityWebRequest.Get(serverUrl + getObstaculesEndPoint);
-        yield return www.SendWebRequest();
- 
-        if (www.result != UnityWebRequest.Result.Success)
-            Debug.Log(www.error);
-        else 
-        {
-            obstaculeData = JsonUtility.FromJson<AgentsData>(www.downloadHandler.text);
-
-            Debug.Log(obstaculeData.positions);
-
-            foreach(AgentData obstacule in obstaculeData.positions)
-            {
-                //Instantiate(obstaculePrefab, new Vector3(obstacule.x, obstacule.y, obstacule.z), Quaternion.identity);
-            }}
-    }}
+    
