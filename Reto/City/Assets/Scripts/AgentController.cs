@@ -65,6 +65,7 @@ public class AgentController : MonoBehaviour
     string serverUrl = "http://localhost:8585";
     string getAgentsEndpoint = "/getAgents";
     string getLightsEndpoint = "/getLights";
+    string getObstaculesEndPoint="/getObstacules";
     string sendConfigEndpoint = "/init";
     string updateEndpoint = "/update";
 
@@ -72,7 +73,7 @@ public class AgentController : MonoBehaviour
 
     private int randomCar;
 
-    AgentsData agentsData;
+    AgentsData agentsData,obstaculeData;
 
     TrafficData lightsData;
 
@@ -154,6 +155,7 @@ public class AgentController : MonoBehaviour
         {
             StartCoroutine(GetAgentsData());
             StartCoroutine(GetLightsData());
+            StartCoroutine(GetObstaculeData());
         }
     }
 
@@ -178,8 +180,10 @@ public class AgentController : MonoBehaviour
         {
             Debug.Log("Configuration upload complete!");
             Debug.Log("Getting Agents positions");
+            Debug.Log("Getting Obstacules positions");
             StartCoroutine(GetAgentsData());
             StartCoroutine(GetLightsData());
+            StartCoroutine(GetObstaculeData());
         }
     }
 
@@ -271,4 +275,23 @@ public class AgentController : MonoBehaviour
         }
         if(!lightsStarted) lightsStarted = true;
     }
-}}
+}
+
+    IEnumerator GetObstaculeData()
+    {
+         UnityWebRequest www = UnityWebRequest.Get(serverUrl + getObstaculesEndPoint);
+        yield return www.SendWebRequest();
+ 
+        if (www.result != UnityWebRequest.Result.Success)
+            Debug.Log(www.error);
+        else 
+        {
+            obstaculeData = JsonUtility.FromJson<AgentsData>(www.downloadHandler.text);
+
+            Debug.Log(obstaculeData.positions);
+
+            foreach(AgentData obstacule in obstaculeData.positions)
+            {
+                //Instantiate(obstaculePrefab, new Vector3(obstacule.x, obstacule.y, obstacule.z), Quaternion.identity);
+            }}
+    }}
