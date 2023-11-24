@@ -53,14 +53,14 @@ public class CityMaker : MonoBehaviour
                 x += 1;
             } 
             //SEMAFORO
-            else if (tiles[i] == 'S') {
+            else if ((tiles[i] == 'S')||(tiles[i] == 'T')) {
                 position = new Vector3(x * tileSize, 0, y * tileSize);
                 tile = Instantiate(road, position, Quaternion.identity);
                 tile.transform.parent = transform;
                 tile = Instantiate(semaforo, position, Quaternion.identity);
                 tile.transform.parent = transform;
                 x += 1;
-            } else if (tiles[i] == 's') {
+            } else if ((tiles[i] == 's')||(tiles[i] == 't') ){
                 position = new Vector3(x * tileSize, 0, y * tileSize);
                 tile = Instantiate(road, position, Quaternion.Euler(0, 90, 0));
                 tile.transform.parent = transform;
