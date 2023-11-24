@@ -1,8 +1,10 @@
 {
     ">" : "Right",
     "<" : "Left",
-    "S" : 15,
-    "s" : 7,
+    "S" : "Down",
+    "s" : "Right",
+    "t":"Left",
+    "T":"Up",
     "#" : "Obstacle",
     "v" : "Down",
     "^" : "Up",
