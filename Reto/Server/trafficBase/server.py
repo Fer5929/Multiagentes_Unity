@@ -34,18 +34,24 @@ def agent_portrayal(agent):
         portrayal["Layer"] = 0
         portrayal["w"] = 0.8
         portrayal["h"] = 0.8
+    
+    if (isinstance(agent, Car)):
+        portrayal["Color"] = "purple"
+        portrayal["Layer"] = 0
+        portrayal["w"] = 0.8
+        portrayal["h"] = 0.8
 
     return portrayal
 
 width = 0
 height = 0
 
-with open('city_files/2022_base.txt') as baseFile:
+with open('city_files/tl.txt') as baseFile:
     lines = baseFile.readlines()
     width = len(lines[0])-1
     height = len(lines)
 
-model_params = {"N":5}
+model_params = {"N":5, "timetogenerate": 5}
 
 print(width, height)
 grid = CanvasGrid(agent_portrayal, width, height, 500, 500)
