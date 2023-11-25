@@ -34,7 +34,7 @@ def getAgents():
     global citymodel
 
     if request.method == 'GET':
-        agentPositions = [{"id": str(a.unique_id), "x": x, "y":1, "z":z} for a, (x, z) in citymodel.grid.coord_iter() if isinstance(a, Car)]
+        agentPositions = [{"id": str(b.unique_id), "x": x, "y":1, "z":z} for a, (x, z) in citymodel.grid.coord_iter() for b in a if isinstance(b, Car)]
 
         return jsonify({'positions':agentPositions})
 

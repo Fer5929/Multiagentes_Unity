@@ -36,7 +36,9 @@ class Car(Agent):
             next_position = None
 
         print(f"Current position: {current_position}")
-
+        cell_content = self.model.grid.get_cell_list_contents([self.pos])
+        print(f"Contents of current position: {cell_content}")
+        
         for position in camino[1:]:
             if position != current_position and position not in self.visited_nodes:
                 next_position = position
@@ -47,7 +49,7 @@ class Car(Agent):
         print(f"Penalized graph: {penalized_graph}")
         if next_position is not None:
             current_cell = self.model.grid.get_cell_list_contents([current_position])[0]
-
+            next_content= self.model.grid.get_cell_list_contents([next_position])
             
                 
             if isinstance(current_cell, (Road,Traffic_Light)):
@@ -117,7 +119,11 @@ class Car(Agent):
                     
                         if (current_cell.direction == "Left" or current_cell.direction=="Right") and next_road_direction =="Down":
                             #check if next position has a car
-                            if  next_cell.occupied==1:
+                            next_content= self.model.grid.get_cell_list_contents([next_position])
+                            print(f"Contents of next position: {next_content}")
+                              
+                            # Check if there is a Car agent present in the same cell as the Road
+                            if any(isinstance(agent, Car) for agent in next_content):
                             #stay in the same position
                                 print("Car in front")
                                 next_position = current_position
@@ -127,7 +133,10 @@ class Car(Agent):
                                 self.model.grid.move_agent(self, next_position)
                                 self.valid=1
                         elif (current_cell.direction == "Down") and (next_road_direction =="Left" or next_road_direction=="Right" or next_road_direction=="Down"):
-                            if next_cell.occupied==1:
+                            next_content= self.model.grid.get_cell_list_contents([next_position])
+                            print(f"Contents of next position: {next_content}")
+                            # Check if there is a Car agent present in the same cell as the Road
+                            if any(isinstance(agent, Car) for agent in next_content):
                             #stay in the same position
                                 print("Car in front")
                                 next_position = current_position
@@ -156,7 +165,10 @@ class Car(Agent):
 
                         
                         if (current_cell.direction == "Left" or current_cell.direction=="Right") and next_road_direction =="Up":
-                            if  next_cell.occupied==1:
+                            next_content= self.model.grid.get_cell_list_contents([next_position])
+                            print(f"Contents of next position: {next_content}")
+                            # Check if there is a Car agent present in the same cell as the Road
+                            if any(isinstance(agent, Car) for agent in next_content):
                             #stay in the same position
                                 print("Car in front")
                                 next_position = current_position
@@ -166,7 +178,10 @@ class Car(Agent):
                                 self.model.grid.move_agent(self, next_position)
                                 self.valid=1
                         elif (current_cell.direction == "Up") and (next_road_direction =="Left" or next_road_direction=="Right" or next_road_direction=="Up"):
-                            if  next_cell.occupied==1:
+                            next_content= self.model.grid.get_cell_list_contents([next_position])
+                            print(f"Contents of next position: {next_content}")
+                            # Check if there is a Car agent present in the same cell as the Road
+                            if any(isinstance(agent, Car) for agent in next_content):
                             #stay in the same position
                                 print("Car in front")
                                 next_position = current_position
@@ -194,7 +209,10 @@ class Car(Agent):
                             print(f"Next road direction: {next_road_direction}")
                     
                         if (current_cell.direction == "Up" or current_cell.direction=="Down") and next_road_direction =="Left":
-                            if  next_cell.occupied==1:
+                            next_content= self.model.grid.get_cell_list_contents([next_position])
+                            print(f"Contents of next position: {next_content}")
+                            # Check if there is a Car agent present in the same cell as the Road
+                            if any(isinstance(agent, Car) for agent in next_content):
                             #stay in the same position
                                 print("Car in front")
                                 next_position = current_position
@@ -204,7 +222,10 @@ class Car(Agent):
                                 self.model.grid.move_agent(self, next_position)
                                 self.valid=1
                         elif (current_cell.direction == "Left") and (next_road_direction =="Left" or next_road_direction=="Up" or next_road_direction=="Down"):
-                            if   next_cell.occupied==1:
+                            next_content= self.model.grid.get_cell_list_contents([next_position])
+                            print(f"Contents of next position: {next_content}")
+                            # Check if there is a Car agent present in the same cell as the Road
+                            if any(isinstance(agent, Car) for agent in next_content):
                             #stay in the same position
                                 print("Car in front")
                                 next_position = current_position
@@ -230,7 +251,10 @@ class Car(Agent):
                             print(f"Next road direction: {next_road_direction}")
                     
                         if (current_cell.direction == "Up" or current_cell.direction=="Down") and next_road_direction =="Right":
-                            if next_cell.occupied==1:
+                            next_content= self.model.grid.get_cell_list_contents([next_position])
+                            print(f"Contents of next position: {next_content}")
+                            # Check if there is a Car agent present in the same cell as the Road
+                            if any(isinstance(agent, Car) for agent in next_content):
                             #stay in the same position
                                 print("Car in front")
                                 next_position = current_position
@@ -240,7 +264,10 @@ class Car(Agent):
                                 self.model.grid.move_agent(self, next_position)
                                 self.valid=1
                         elif (current_cell.direction == "Right") and (next_road_direction =="Right" or next_road_direction=="Up" or next_road_direction=="Down"):
-                            if  next_cell.occupied==1:
+                            next_content= self.model.grid.get_cell_list_contents([next_position])
+                            print(f"Contents of next position: {next_content}")
+                            # Check if there is a Car agent present in the same cell as the Road
+                            if any(isinstance(agent, Car) for agent in next_content):
                             #stay in the same position
                                 print("Car in front")
                                 next_position = current_position
@@ -259,7 +286,8 @@ class Car(Agent):
 
                 
 
-       
+        #print all the agents in a cell 
+        
         if self.pos == self.destination.initial_position:
             self.model.schedule.remove(self)
             self.model.grid.remove_agent(self)
@@ -319,13 +347,14 @@ class Car(Agent):
             self.select_random_destination()
         print("destiny")
         print(self.destination.initial_position)
+        print("ID", self.unique_id)
         self.move()
 
 class Traffic_Light(Agent):
     """
     Traffic light. Where the traffic lights are in the grid.
     """
-    def __init__(self, unique_id, model, state = False, timeToChange = 10, direction= "Left",occupied=0):
+    def __init__(self, unique_id, model, state = False, timeToChange = 10, direction= "Left"):
         super().__init__(unique_id, model)
         """
         Creates a new Traffic light.
@@ -338,7 +367,7 @@ class Traffic_Light(Agent):
         self.state = state
         self.timeToChange = timeToChange
         self.direction = direction
-        self.occupied=occupied
+      
 
     def step(self):
         """ 
@@ -347,17 +376,10 @@ class Traffic_Light(Agent):
         
         if self.model.schedule.steps % self.timeToChange == 0:
             self.state = not self.state
-        cell_content = self.model.grid.get_cell_list_contents([self.pos])
-        self.occupied=0
+        
+        
         # Check if there is a Car agent present in the same cell as the Road
-        car_present = any(isinstance(agent, Car) for agent in cell_content)
-
-        if car_present:
-            print(f"Car present at position {self.pos} on this road")
-            self.occupied=1
-        else:
-            
-            self.occupied=0
+        
 
 class Destination(Agent):
 
@@ -390,7 +412,7 @@ class Road(Agent):
     """
     Road agent. Determines where the cars can move, and in which direction.
     """
-    def __init__(self, unique_id, model, direction= "Left", occupied=0):
+    def __init__(self, unique_id, model, direction= "Left"):
         """
         Creates a new road.
         Args:
@@ -400,21 +422,9 @@ class Road(Agent):
         """
         super().__init__(unique_id, model)
         self.direction = direction
-        self.occupied=occupied
+     
 
     def step(self):
-       #check if there is a car in the same cell as a road
-       # Get agents present in the current cell (where the road is)
-        cell_content = self.model.grid.get_cell_list_contents([self.pos])
-        self.occupied=0
-        # Check if there is a Car agent present in the same cell as the Road
-        car_present = any(isinstance(agent, Car) for agent in cell_content)
-
-        if car_present:
-            print(f"Car present at position {self.pos} on this road")
-            self.occupied=1
-        else:
-            
-            self.occupied=0
+       pass
            
 
