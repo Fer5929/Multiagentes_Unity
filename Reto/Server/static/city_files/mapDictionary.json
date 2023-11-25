@@ -1,0 +1,12 @@
+{
+    ">" : "Right",
+    "<" : "Left",
+    "S" : "Down",
+    "s" : "Right",
+    "t":"Left",
+    "T":"Up",
+    "#" : "Obstacle",
+    "v" : "Down",
+    "^" : "Up",
+    "D" : "Destination"
+}

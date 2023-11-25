@@ -4,3 +4,4 @@ Repositorio para la parte de Unity de la clase al igual que para la Evidencia fi
 
 Team:
 Sylvia Fernanda Colomo Fuente 
+Ian Luis Vázquez Morán
