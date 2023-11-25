@@ -62,6 +62,7 @@ class CityModel(Model):
             agent = Car(f"car_{corner}", self)
             self.schedule.add(agent)  
             self.grid.place_agent(agent, corner)
+            print(agent.unique_id)
 
         
 
@@ -79,7 +80,7 @@ class CityModel(Model):
         self.schedule.step()
         # Increment the time counter
         self.time_counter += 1
-        agentPositions = [a for a, (x, z) in self.grid.coord_iter() if isinstance(a, trafficBase.agent.Car)]
+        agentPositions = [(b.unique_id) for a, (x, z) in self.grid.coord_iter() for b in a if isinstance(b, Car)]
         print(agentPositions)
         # Check if it's time to generate a new car
         if self.time_counter % self.timetogenerate == 0:
