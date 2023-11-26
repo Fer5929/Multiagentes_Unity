@@ -331,11 +331,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   carPrefabs:
-  - {fileID: 8839358258826875907, guid: 3f23ff8cf43da4eb4a4a898aa06c0365, type: 3}
-  - {fileID: 5446676529775946957, guid: f4ea9c0e6ddea480193d31040cd77450, type: 3}
-  - {fileID: 575111087568828722, guid: 10e44ead15a7a464aae131699c9ab989, type: 3}
-  - {fileID: 8943355591473441099, guid: 4be0bb22cb1a4422c91362b2a2e666f3, type: 3}
-  - {fileID: 6660869340542382699, guid: 739f819aa70854edeb0706d603c1c59d, type: 3}
+  - {fileID: 6550729709432471832, guid: 7b8211a5abe4ac649bddb00bc8a07aa5, type: 3}
+  - {fileID: 7064049743935499339, guid: 53c4ada3beeee754dab34b6ca4e718ac, type: 3}
+  - {fileID: 6489474892919242331, guid: c4b3c3456fbb19c409fd69607225d5f9, type: 3}
+  - {fileID: 3245260610691062377, guid: 55e41da1979c41444b0f7ce14975440d, type: 3}
+  - {fileID: 4834727557101926612, guid: 05d8519f1e896a74aab58fcc3019e58a, type: 3}
   lightPrefab: {fileID: 3165562704358957663, guid: cc08ee9a0bc124374a624b1813a81a7a, type: 3}
   timetogenerate: 5
   timecounter: 1
@@ -491,7 +491,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1754264960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -499,7 +499,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1754264959}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eadaf95383e4431499b4f25335ad5b70, type: 3}
   m_Name: 
