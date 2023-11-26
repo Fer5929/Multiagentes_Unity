@@ -5,8 +5,6 @@ using UnityEngine;
 public class move : MonoBehaviour
 {
     [SerializeField] Vector3 displacement;
-    [SerializeField] float angle;
-    [SerializeField] AXIS rotationAxis;
     [SerializeField] AXIS rotationAxiswheels;
 
     Mesh mesh;
@@ -37,6 +35,8 @@ public class move : MonoBehaviour
     Vector3[] newVerticeswheel3;
     Vector3[] newVerticeswheel4;
     float wheelvel;
+    AXIS rotationAxis = AXIS.Y;
+    float angle=0;
     // Start is called before the first frame update
     void Start()
     {
@@ -76,19 +76,19 @@ public class move : MonoBehaviour
             newVerticeswheel4[i]=baseVerticeswheel4[i];
         }
         
-        Dotransform();
         
     }
 
     // Update is called once per frame
     void Update()
     {
-        Dotransform();
+       
     }
-    void Dotransform(){
-        Matrix4x4 move=HW_Transforms.TranslationMat(displacement.x*Time.time,
-                                                    displacement.y*Time.time,
-                                                    displacement.z*Time.time);
+    public void Dotransform(Vector3 prevPosition, Vector3 currPosition)
+    {
+        Matrix4x4 move = HW_Transforms.TranslationMat(currPosition.x,
+                                              currPosition.y,
+                                              currPosition.z);
             
         Matrix4x4 scalecar=HW_Transforms.ScaleMat(0.1810022f,
                                                     0.1810022f,
@@ -101,10 +101,25 @@ public class move : MonoBehaviour
                                                     displacement.y,
                                                     displacement.z);*/
 
-        Matrix4x4 rotate=HW_Transforms.RotateMat(angle*Time.time,rotationAxis);
+        if (currPosition.z<prevPosition.z){
+            angle=180;
+        }
+        if (currPosition.z>prevPosition.z){
+            angle=-1;
+        }
+        else{
+            if (currPosition.x>prevPosition.x){
+            angle=90;
+            }
+            if (currPosition.x<prevPosition.x){
+            angle=-90;
+            }
+        }
+        //print(prevPosition.x);
+        Matrix4x4 rotate=HW_Transforms.RotateMat(angle,rotationAxis);
 
         //Combine all matrix in single one
-        Matrix4x4 composite = move*rotate*scalecar;
+        Matrix4x4 composite =rotate*scalecar;
         Matrix4x4 composites = move*rotate*scalecar;
 
         //Multiply each vertex in the composite matrix
@@ -132,7 +147,7 @@ public class move : MonoBehaviour
 
         Matrix4x4 Right = scales * rotateright;
         Matrix4x4 Left = scales * rotateleft;
-        wheelvel=displacement.z*360;
+        wheelvel=currPosition.z*360;
         Matrix4x4 rotatewheel=HW_Transforms.RotateMat(wheelvel*Time.time,rotationAxiswheels);
         Matrix4x4 rotatewheel2=HW_Transforms.RotateMat(-wheelvel*Time.time,rotationAxiswheels);
         // Aplicar transformaciones de las ruedas en relación con el objeto principal
@@ -185,7 +200,6 @@ public class move : MonoBehaviour
 
         meshwheel4.vertices = newVerticeswheel4;
         meshwheel4.RecalculateNormals();
-
 
     }
 }
