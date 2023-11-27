@@ -12,7 +12,7 @@ class CityModel(Model):
         Args:
             N: Number of agents in the simulation
     """
-    def __init__(self, N, timetogenerate, timecounter = 0):
+    def __init__(self, timetogenerate, timecounter = 0):
 
         # Load the map dictionary. The dictionary maps the characters in the map file to the corresponding agent.
         dataDictionary = json.load(open("static/city_files/mapDictionary.json"))
@@ -67,7 +67,6 @@ class CityModel(Model):
         
 
 
-        self.num_agents = N
         self.running = True
 
         #self.datacollector = DataCollector(

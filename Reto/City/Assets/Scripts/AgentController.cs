@@ -204,7 +204,7 @@ public class AgentController : MonoBehaviour
             {
                 Vector3 newAgentPosition = new Vector3(agent.x, 0, agent.z);
 
-                    if(!started)
+                    if(!agents.ContainsKey(agent.id))
                     {
                         prevPositions[agent.id] = newAgentPosition;
                         randomCar=UnityEngine.Random.Range(0,carPrefabs.Count());
