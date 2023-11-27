@@ -12,7 +12,7 @@ class CityModel(Model):
         Args:
             N: Number of agents in the simulation
     """
-    def __init__(self, N, timetogenerate, timecounter = 0):
+    def __init__(self, timetogenerate=5 , timecounter = 0):
 
         # Load the map dictionary. The dictionary maps the characters in the map file to the corresponding agent.
         dataDictionary = json.load(open("static/city_files/mapDictionary.json"))
@@ -67,7 +67,7 @@ class CityModel(Model):
         
 
 
-        self.num_agents = N
+       
         self.running = True
 
         #self.datacollector = DataCollector(
@@ -83,6 +83,7 @@ class CityModel(Model):
         agentPositions = [(b.unique_id) for a, (x, z) in self.grid.coord_iter() for b in a if isinstance(b, Car)]
         print(agentPositions)
         # Check if it's time to generate a new car
+        print(f"Current value of timetogenerate: {self.timetogenerate}")
         if self.time_counter % self.timetogenerate == 0:
             # Get a random corner
             corner = random.choice([(1, 1), (1, self.height - 2), (self.width - 2, 1), (self.width - 1, self.height - 2)])
