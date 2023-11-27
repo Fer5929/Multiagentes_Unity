@@ -124,10 +124,11 @@ public class AgentController : MonoBehaviour
         if (updated)
         {
             timer -= Time.deltaTime;
-            dt = 1.0f - (timer / timeToUpdate);
+            dt = 120.0f - (timer / timeToUpdate);
 
             foreach(var agent in currPositions)
             {
+                string agentId = agent.Key;
                 Vector3 currentPosition = agent.Value;
                 Vector3 previousPosition = prevPositions[agent.Key];
 
@@ -136,6 +137,8 @@ public class AgentController : MonoBehaviour
 
                 agents[agent.Key].transform.localPosition = interpolated;
                 if(direction != Vector3.zero) agents[agent.Key].transform.rotation = Quaternion.LookRotation(direction);
+
+                agents[agentId].GetComponent<move>().Dotransform(previousPosition, currentPosition);
             }
 
             // float t = (timer / timeToUpdate);
@@ -199,9 +202,9 @@ public class AgentController : MonoBehaviour
 
             foreach(AgentData agent in agentsData.positions)
             {
-                Vector3 newAgentPosition = new Vector3(agent.x, agent.y, agent.z);
+                Vector3 newAgentPosition = new Vector3(agent.x, 0, agent.z);
 
-                    if(!started)
+                    if(!agents.ContainsKey(agent.id))
                     {
                         prevPositions[agent.id] = newAgentPosition;
                         randomCar=UnityEngine.Random.Range(0,carPrefabs.Count());
