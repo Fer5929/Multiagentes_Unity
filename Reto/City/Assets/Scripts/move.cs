@@ -5,8 +5,6 @@ using UnityEngine;
 public class move : MonoBehaviour
 {
     [SerializeField] Vector3 displacement;
-    [SerializeField] float angle;
-    [SerializeField] AXIS rotationAxis;
     [SerializeField] AXIS rotationAxiswheels;
 
     Mesh mesh;
@@ -38,6 +36,7 @@ public class move : MonoBehaviour
     Vector3[] newVerticeswheel4;
     float wheelvel;
 
+
     Vector3 startp;
     Vector3 stoppos;
 
@@ -45,6 +44,7 @@ public class move : MonoBehaviour
     float current;
     float motionTime=1f;
     Vector3 result;
+
 
     // Start is called before the first frame update
     void Start()
@@ -85,15 +85,15 @@ public class move : MonoBehaviour
             newVerticeswheel4[i]=baseVerticeswheel4[i];
         }
         
-        Dotransform();
         
     }
 
     // Update is called once per frame
     void Update()
     {
-        Dotransform();
+       
     }
+
     public void Positions(Vector3 npos){
        startp=stoppos;
        stoppos=npos;
@@ -119,6 +119,7 @@ public class move : MonoBehaviour
         Matrix4x4 move=HW_Transforms.TranslationMat(pos.x,
                                                     pos.y,
                                                     pos.z);
+
             
         Matrix4x4 scalecar=HW_Transforms.ScaleMat(0.1810022f,
                                                     0.1810022f,
@@ -131,10 +132,12 @@ public class move : MonoBehaviour
                                                     displacement.y,
                                                     displacement.z);*/
 
+
+
         Matrix4x4 rotate=HW_Transforms.RotateMat(angle,rotationAxis);
 
         //Combine all matrix in single one
-        Matrix4x4 composite = move*rotate*scalecar;
+        Matrix4x4 composite =rotate*scalecar;
         Matrix4x4 composites = move*rotate*scalecar;
 
         //Multiply each vertex in the composite matrix
@@ -162,7 +165,7 @@ public class move : MonoBehaviour
 
         Matrix4x4 Right = scales * rotateright;
         Matrix4x4 Left = scales * rotateleft;
-        wheelvel=displacement.z*360;
+        wheelvel=currPosition.z*360;
         Matrix4x4 rotatewheel=HW_Transforms.RotateMat(wheelvel*Time.time,rotationAxiswheels);
         Matrix4x4 rotatewheel2=HW_Transforms.RotateMat(-wheelvel*Time.time,rotationAxiswheels);
         // Aplicar transformaciones de las ruedas en relación con el objeto principal
@@ -215,7 +218,6 @@ public class move : MonoBehaviour
 
         meshwheel4.vertices = newVerticeswheel4;
         meshwheel4.RecalculateNormals();
-
 
     }
 }
