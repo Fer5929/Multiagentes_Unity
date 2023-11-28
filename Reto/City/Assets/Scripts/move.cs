@@ -37,6 +37,15 @@ public class move : MonoBehaviour
     Vector3[] newVerticeswheel3;
     Vector3[] newVerticeswheel4;
     float wheelvel;
+
+    Vector3 startp;
+    Vector3 stoppos;
+
+    float t;
+    float current;
+    float motionTime=1f;
+    Vector3 result;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -85,10 +94,31 @@ public class move : MonoBehaviour
     {
         Dotransform();
     }
+    public void Positions(Vector3 npos){
+       startp=stoppos;
+       stoppos=npos;
+       result = stoppos - startp;
+       angle=Mathf.Atan2(result.x, result.z);
+       angle=angle*Mathf.Rad2Deg;
+       current=0;
+    }
+    public Vector3 returnpos(){
+        current += Time.deltaTime;
+        t=current/motionTime;
+        if (t>1){
+            t=1;
+        }
+        
+        return startp + (stoppos-startp)*t;
+    }
+
+
     void Dotransform(){
-        Matrix4x4 move=HW_Transforms.TranslationMat(displacement.x*Time.time,
-                                                    displacement.y*Time.time,
-                                                    displacement.z*Time.time);
+        Vector3 pos;
+        pos =returnpos();
+        Matrix4x4 move=HW_Transforms.TranslationMat(pos.x,
+                                                    pos.y,
+                                                    pos.z);
             
         Matrix4x4 scalecar=HW_Transforms.ScaleMat(0.1810022f,
                                                     0.1810022f,
@@ -101,7 +131,7 @@ public class move : MonoBehaviour
                                                     displacement.y,
                                                     displacement.z);*/
 
-        Matrix4x4 rotate=HW_Transforms.RotateMat(angle*Time.time,rotationAxis);
+        Matrix4x4 rotate=HW_Transforms.RotateMat(angle,rotationAxis);
 
         //Combine all matrix in single one
         Matrix4x4 composite = move*rotate*scalecar;
