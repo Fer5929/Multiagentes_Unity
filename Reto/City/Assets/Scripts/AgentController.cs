@@ -22,7 +22,7 @@ public class AgentData
 }
 
 [Serializable]
-public class LightsData
+public class LightData
 {
     public string id;
     public float x, y, z;
@@ -31,7 +31,7 @@ public class LightsData
 
     public bool needsRotation;
 
-    public LightsData(string id, float x, float y, float z, bool state, bool needsRotation)
+    public LightData(string id, float x, float y, float z, bool state, bool needsRotation)
     {
         this.id = id;
         this.x = x;
@@ -49,13 +49,29 @@ public class AgentsData
 
     public AgentsData() => this.positions = new List<AgentData>();
 }
-
+// Clase del agente semáforo luz prueba
 [Serializable]
-public class TrafficData
+public class TLightData
 {
-    public List<LightsData> positions;
+    public string id;
+    public float x, y, z;
+    public bool state;
 
-    public TrafficData() => this.positions = new List<LightsData>();
+    public TLightData(string id, float x, float y, float z, bool state)
+    {
+        this.id = id;
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        this.state = state;
+    }
+}
+[Serializable]
+public class TLightsData
+{
+    public List<TLightData> positions;
+
+    public TLightsData() => this.positions = new List<TLightData>();
 }
 
 
@@ -71,11 +87,12 @@ public class AgentController : MonoBehaviour
 
     public List<GameObject> carPrefabs;
 
+    public GameObject luz; //luz de prueba
     private int randomCar;
 
     AgentsData agentsData;
 
-    TrafficData lightsData;
+    TLightsData tlightsData;
 
     Dictionary<string, GameObject> agents;
 
@@ -85,19 +102,19 @@ public class AgentController : MonoBehaviour
 
     Dictionary<string, Vector3> lprevPositions, lcurrPositions;
 
-    bool updated = false, started = false, lightsStarted = false;
+    bool updated = false, started = false, tlightsStarted = false;
 
     
     //public GameObject agentPrefab, lightPrefab, floor;
     public GameObject lightPrefab;
     public int timetogenerate, timecounter;
-    public float timeToUpdate = 5.0f;
+    public float timeToUpdate = 1.0f;
     private float timer, dt;
 
     void Start()
     {
         agentsData = new AgentsData();
-        lightsData = new TrafficData();
+        tlightsData = new TLightsData();
 
         prevPositions = new Dictionary<string, Vector3>();
         currPositions = new Dictionary<string, Vector3>();
@@ -126,20 +143,8 @@ public class AgentController : MonoBehaviour
             timer -= Time.deltaTime;
             dt = 120.0f - (timer / timeToUpdate);
 
-            foreach(var agent in currPositions)
-            {
-                string agentId = agent.Key;
-                Vector3 currentPosition = agent.Value;
-                Vector3 previousPosition = prevPositions[agent.Key];
 
-                Vector3 interpolated = Vector3.Lerp(previousPosition, currentPosition, dt);
-                Vector3 direction = currentPosition - interpolated;
-
-                agents[agent.Key].transform.localPosition = interpolated;
-                if(direction != Vector3.zero) agents[agent.Key].transform.rotation = Quaternion.LookRotation(direction);
-
-                agents[agentId].GetComponent<move>().Dotransform(previousPosition, currentPosition);
-            }
+            
 
             // float t = (timer / timeToUpdate);
             // dt = t * t * ( 3f - 2f*t);
@@ -187,6 +192,7 @@ public class AgentController : MonoBehaviour
             StartCoroutine(GetLightsData());
             
         }
+        //yield return 0;
     }
 
     IEnumerator GetAgentsData() 
@@ -208,15 +214,16 @@ public class AgentController : MonoBehaviour
                     {
                         prevPositions[agent.id] = newAgentPosition;
                         randomCar=UnityEngine.Random.Range(0,carPrefabs.Count());
-                        agents[agent.id] = Instantiate(carPrefabs[randomCar], newAgentPosition, Quaternion.identity);
+                        agents[agent.id] = Instantiate(carPrefabs[randomCar], Vector3.zero, Quaternion.identity);
+                        move carmove=agents[agent.id].GetComponent<move>();//obtiene el script para el carro
+                        carmove.Positions(newAgentPosition);
+                        carmove.Positions(newAgentPosition);//envia la posicion inicial del carro
                         //agents[agent.id] = Instantiate(agentPrefab, newAgentPosition, Quaternion.identity);
                     }
                     else
                     {
-                        Vector3 currentPosition = new Vector3();
-                        if(currPositions.TryGetValue(agent.id, out currentPosition))
-                            prevPositions[agent.id] = currentPosition;
-                        currPositions[agent.id] = newAgentPosition;
+                        move carmove=agents[agent.id].GetComponent<move>();//obtiene el script para el carro
+                        carmove.Positions(newAgentPosition);//envia la posicion inicial del carro
                     }
             }
 
@@ -234,50 +241,64 @@ public class AgentController : MonoBehaviour
             Debug.Log(www.error);
         else 
         {
-            lightsData = JsonUtility.FromJson<TrafficData>(www.downloadHandler.text);
+            tlightsData = JsonUtility.FromJson<TLightsData>(www.downloadHandler.text);
 
             Debug.Log(www.downloadHandler.text);
 
-            foreach(LightsData light in lightsData.positions)
+            foreach(TLightData light in tlightsData.positions)
             {
-                Vector3 newAgentPosition = new Vector3(light.x, light.y, light.z);
-                 if(!lightsStarted)
+                
+                 if(!tlightsStarted)
                     {
-                        
-                        
-                        
-                        
-                        if (light.needsRotation && light.x > 15 && light.z > 20)
-                        {
-                            lights[light.id] = Instantiate(lightPrefab, new Vector3(light.x- 0.5f, light.y, light.z - 0.5f), Quaternion.Euler(0,90,0));
-                        }
-                        else
-                        {
-                            if (light.needsRotation)
-                            {
-                                lights[light.id] = Instantiate(lightPrefab, new Vector3(light.x, light.y, light.z + 0.5f), Quaternion.Euler(0,90,0));
-                            }
-                            else
-                            {
-                            lights[light.id] = Instantiate(lightPrefab, new Vector3(light.x-0.5f, light.y, light.z), Quaternion.identity);
-                            }
-                        }
-                        
-                        
-                        
-                        
-                        
+                     Vector3 newAgentPosition = new Vector3(light.x, light.y, light.z);
+                     lights[light.id]=Instantiate(luz, newAgentPosition,luz.transform.rotation); //luz de prueba
+                     lights[light.id].name=light.id;
                     }
-                    else
-                    {
-                        lights[light.id].GetComponent<LightBehavior>().toggleLights(light.state);
+                    else{
+                        if(light.state){
+                        lights[light.id].GetComponent<Light>().color = Color.green;
+                    } else {
+                        lights[light.id].GetComponent<Light>().color = Color.red;
                     }
+                    }   
+                        
+                        
+                        
+                        //if (light.needsRotation && light.x > 15 && light.z > 20)
+                        //{
+                         //   lights[light.id] = Instantiate(lightPrefab, new Vector3(light.x- 0.5f, light.y, light.z - 0.5f), Quaternion.Euler(0,90,0));
+                        //}
+                        //else
+                        //{
+                          //  if (light.needsRotation)
+                            //{
+                              //  lights[light.id] = Instantiate(lightPrefab, new Vector3(light.x, light.y, light.z + 0.5f), Quaternion.Euler(0,90,0));
+                            //}
+                            //else
+                            //{
+                            //lights[light.id] = Instantiate(lightPrefab, new Vector3(light.x-0.5f, light.y, light.z), Quaternion.identity);
+                            //}
+                        //}
+                        
+                        
+                        
+                        
+                        
+            }
+                    //else
+                    //{
+                      //  lights[light.id].GetComponent<LightBehavior>().toggleLights(light.state);
+                    //}
+            if (!tlightsStarted)
+            {
+            tlightsStarted = true;
+            }
 
                     
         }
-        if(!lightsStarted) lightsStarted = true;
+        //if(!tlightsStarted) tlightsStarted = true;
     }
 }
-}
+
 
     
