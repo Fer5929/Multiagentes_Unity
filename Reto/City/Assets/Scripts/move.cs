@@ -215,13 +215,16 @@ public class move : MonoBehaviour
         // Aplicar nuevas coordenadas a las mallas de las ruedas
         meshwheel1.vertices = newVerticeswheel1;
         meshwheel1.RecalculateNormals();
-        meshwheel2.RecalculateBounds();
+        meshwheel1.RecalculateBounds();
+
         meshwheel2.vertices = newVerticeswheel2;
         meshwheel2.RecalculateNormals();
         meshwheel2.RecalculateBounds();
+
         meshwheel3.vertices = newVerticeswheel3;
         meshwheel3.RecalculateNormals();
         meshwheel3.RecalculateBounds();
+        
         meshwheel4.vertices = newVerticeswheel4;
         meshwheel4.RecalculateNormals();
         meshwheel4.RecalculateBounds();
