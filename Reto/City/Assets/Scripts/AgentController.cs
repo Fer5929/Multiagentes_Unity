@@ -141,11 +141,9 @@ public class AgentController : MonoBehaviour
         if (updated)
         {
             timer -= Time.deltaTime;
-            dt = 120.0f - (timer / timeToUpdate);
-
+            dt = 1.0f - (timer / timeToUpdate);
 
             
-
             // float t = (timer / timeToUpdate);
             // dt = t * t * ( 3f - 2f*t);
         }
@@ -208,7 +206,7 @@ public class AgentController : MonoBehaviour
 
             foreach(AgentData agent in agentsData.positions)
             {
-                Vector3 newAgentPosition = new Vector3(agent.x, 0, agent.z);
+                Vector3 newAgentPosition = new Vector3(agent.x, agent.y, agent.z);
 
                     if(!agents.ContainsKey(agent.id))
                     {
@@ -251,7 +249,7 @@ public class AgentController : MonoBehaviour
                  if(!tlightsStarted)
                     {
                      Vector3 newAgentPosition = new Vector3(light.x, light.y, light.z);
-                     lights[light.id]=Instantiate(luz, newAgentPosition,luz.transform.rotation); //luz de prueba
+                     lights[light.id]=Instantiate(luz, newAgentPosition, Quaternion.identity); //luz de prueba
                      lights[light.id].name=light.id;
                     }
                     else{

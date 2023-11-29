@@ -336,13 +336,11 @@ MonoBehaviour:
   - {fileID: 6489474892919242331, guid: c4b3c3456fbb19c409fd69607225d5f9, type: 3}
   - {fileID: 3245260610691062377, guid: 55e41da1979c41444b0f7ce14975440d, type: 3}
   - {fileID: 4834727557101926612, guid: 05d8519f1e896a74aab58fcc3019e58a, type: 3}
-
-
-
+  luz: {fileID: 0}
   lightPrefab: {fileID: 3165562704358957663, guid: cc08ee9a0bc124374a624b1813a81a7a, type: 3}
   timetogenerate: 5
   timecounter: 0
-  timeToUpdate: 1
+  timeToUpdate: 0.2
 --- !u!4 &623259110
 Transform:
   m_ObjectHideFlags: 0
@@ -396,10 +394,12 @@ MonoBehaviour:
   - {fileID: 4279039961533115330, guid: dc6824f8b3fb94f46a1b96578b11eb8b, type: 3}
   - {fileID: 948112089144569098, guid: c82b30258379b4b8bad2c33ac4ef4816, type: 3}
   - {fileID: 3550388522831171661, guid: 9b33d29319a444fb68767b2903c75792, type: 3}
-  layout: {fileID: 4900000, guid: 1bd49f2e04cdbec48bb774669bd2140d, type: 3}
+  layout: {fileID: 4900000, guid: 893c89e9c9bd7430881e58a7133077f8, type: 3}
   road: {fileID: 8024436176574239853, guid: 8c204cc8586394b1093d32e1369da40d, type: 3}
-  semaforo: {fileID: 3165562704358957663, guid: cc08ee9a0bc124374a624b1813a81a7a, type: 3}
+  semaforo_largo: {fileID: 3165562704358957663, guid: cc08ee9a0bc124374a624b1813a81a7a, type: 3}
+  semaforo_corto: {fileID: 3165562704358957663, guid: cc08ee9a0bc124374a624b1813a81a7a, type: 3}
   destiny: {fileID: 462346399178819790, guid: 4b2624e1cb71943d180f275645d2a2d6, type: 3}
+  luz: {fileID: 2453923074753754016, guid: c6341f08b805d409984140c5e2a9bb52, type: 3}
   tileSize: 1
 --- !u!4 &1457529884
 Transform:

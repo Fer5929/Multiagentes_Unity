@@ -10,8 +10,11 @@ public class CityMaker : MonoBehaviour
     public List<GameObject> buildingPrefabs;//lista de edificios para que haya variedad
     [SerializeField] TextAsset layout;//archivo txt con el mapa
     [SerializeField] GameObject road;//prefab del camino
-    [SerializeField] GameObject semaforo;//prefab del semaforo
+    [SerializeField] GameObject semaforo_largo;//prefab del semaforo
+    [SerializeField] GameObject semaforo_corto;//prefab del semaforo
     [SerializeField] GameObject destiny;//prefab del edificio destino
+
+    [SerializeField] GameObject luz;
     [SerializeField] int tileSize;//tamaño de la tile
 
     private int edificio;// va a guardar el edificio random seleccionado para luego saber cuál instanciar
@@ -57,15 +60,17 @@ public class CityMaker : MonoBehaviour
                 position = new Vector3(x * tileSize, 0, y * tileSize);
                 tile = Instantiate(road, position, Quaternion.identity);
                 tile.transform.parent = transform;
-                tile = Instantiate(semaforo, position, Quaternion.identity);
+                tile = Instantiate(semaforo_largo, position, Quaternion.identity);
                 tile.transform.parent = transform;
+                //tile = Instantiate(luz, position, Quaternion.identity);
                 x += 1;
             } else if ((tiles[i] == 's')||(tiles[i] == 't') ){
                 position = new Vector3(x * tileSize, 0, y * tileSize);
                 tile = Instantiate(road, position, Quaternion.Euler(0, 90, 0));
                 tile.transform.parent = transform;
-                tile = Instantiate(semaforo, position, Quaternion.Euler(0, 90, 0));
+                tile = Instantiate(semaforo_corto, position, Quaternion.Euler(0, 90, 0));
                 tile.transform.parent = transform;
+                //tile = Instantiate(luz, position, Quaternion.identity);
                 x += 1;
             } 
             //DESTINO

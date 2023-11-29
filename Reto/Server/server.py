@@ -43,7 +43,8 @@ def getLights():
     global citymodel
 
     if request.method == 'GET':
-        agentPositions = [{"id": str(a.unique_id), "x": x, "y":1, "z":z} for a, (x, z) in citymodel.grid.coord_iter() if isinstance(a, Traffic_Light)]
+        agentPositions = [{"id": str(b.unique_id), "x": x, "y":0, "z":z ,"state":b.state} for a, (x, z) in citymodel.grid.coord_iter() for b in a if isinstance(b, Traffic_Light)]
+        
 
         return jsonify({'positions':agentPositions})
 

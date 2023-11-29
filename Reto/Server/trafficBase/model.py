@@ -40,7 +40,7 @@ class CityModel(Model):
 
                     elif col in ["S", "s","T","t"]:
                         change = [15, 7]
-                        agent = Traffic_Light(f"tl_{r*self.width+c}", self, False if col == "S" or col == "s" else True, 15 if col =="S" or col =="s" else 7,dataDictionary[col])
+                        agent = Traffic_Light(f"tl_{r*self.width+c}", self, False if col == "S" or col == "T" else True, 15 if col =="t" or col =="s" else 7,dataDictionary[col])
                         self.grid.place_agent(agent, (c, self.height - r - 1))
                         self.schedule.add(agent)
                         self.traffic_lights.append(agent)
@@ -84,6 +84,11 @@ class CityModel(Model):
         print(agentPositions)
         # Check if it's time to generate a new car
         print(f"Current value of timetogenerate: {self.timetogenerate}")
+        #print the state of the traffic lights
+        print("Traffic lights state:")
+        for tl in self.traffic_lights:
+            print(tl.state)
+            
         if self.time_counter % self.timetogenerate == 0:
             # Get a random corner
             corner = random.choice([(1, 1), (1, self.height - 2), (self.width - 2, 1), (self.width - 1, self.height - 2)])
