@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class move : MonoBehaviour
 {
-    [SerializeField] Vector3 displacement;
+    double displacement=.1;
     float angle;
     AXIS rotationAxis = AXIS.Y;
     [SerializeField] AXIS rotationAxiswheels;
@@ -107,6 +107,10 @@ public class move : MonoBehaviour
        if (result.x!=0 || result.z!=0){
         angle=Mathf.Atan2(result.x, result.z);
         angle=angle*Mathf.Rad2Deg;
+        displacement=.1;
+        }
+        else{
+            displacement=0;
         }
        current=0;
     }
@@ -171,7 +175,8 @@ public class move : MonoBehaviour
 
         Matrix4x4 Right = scales * rotateright;
         Matrix4x4 Left = scales * rotateleft;
-        wheelvel=displacement.z*360;
+        wheelvel=(float)displacement*360;
+        print(displacement);
         Matrix4x4 rotatewheel=HW_Transforms.RotateMat(wheelvel*Time.time,rotationAxiswheels);
         Matrix4x4 rotatewheel2=HW_Transforms.RotateMat(-wheelvel*Time.time,rotationAxiswheels);
         // Aplicar transformaciones de las ruedas en relación con el objeto principal
@@ -224,7 +229,7 @@ public class move : MonoBehaviour
         meshwheel3.vertices = newVerticeswheel3;
         meshwheel3.RecalculateNormals();
         meshwheel3.RecalculateBounds();
-        
+
         meshwheel4.vertices = newVerticeswheel4;
         meshwheel4.RecalculateNormals();
         meshwheel4.RecalculateBounds();

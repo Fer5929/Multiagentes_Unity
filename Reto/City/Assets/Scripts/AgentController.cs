@@ -236,7 +236,6 @@ public class AgentController : MonoBehaviour
                     GameObject objetoAEliminar = agents[agentID];
                     for (int i=1; i<=4; i++){
                         string nombreObjetoAEliminar = objetoAEliminar.name + "wheel"+i;
-                        print("se destruyo: "+nombreObjetoAEliminar);
                         Destroy(GameObject.Find(nombreObjetoAEliminar));
                     }
                     Destroy(agents[agentID]); // Eliminar el objeto de Unity correspondiente al ID no presente
