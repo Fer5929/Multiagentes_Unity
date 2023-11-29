@@ -205,6 +205,7 @@ public class AgentController : MonoBehaviour
         else 
         {
             agentsData = JsonUtility.FromJson<AgentsData>(www.downloadHandler.text);
+            List<string> idsPresentes = new List<string>();
 
             foreach(AgentData agent in agentsData.positions)
             {
@@ -215,6 +216,7 @@ public class AgentController : MonoBehaviour
                         prevPositions[agent.id] = newAgentPosition;
                         randomCar=UnityEngine.Random.Range(0,carPrefabs.Count());
                         agents[agent.id] = Instantiate(carPrefabs[randomCar], Vector3.zero, Quaternion.identity);
+                        agents[agent.id].name=randomCar + agent.id;
                         move carmove=agents[agent.id].GetComponent<move>();//obtiene el script para el carro
                         carmove.Positions(newAgentPosition);
                         carmove.Positions(newAgentPosition);//envia la posicion inicial del carro
@@ -225,6 +227,20 @@ public class AgentController : MonoBehaviour
                         move carmove=agents[agent.id].GetComponent<move>();//obtiene el script para el carro
                         carmove.Positions(newAgentPosition);//envia la posicion inicial del carro
                     }
+                    idsPresentes.Add(agent.id);
+            }
+            foreach (string agentID in agents.Keys.ToList())
+            {
+                if (!idsPresentes.Contains(agentID))
+                {
+                    GameObject objetoAEliminar = agents[agentID];
+                    for (int i=1; i<=4; i++){
+                        string nombreObjetoAEliminar = objetoAEliminar.name + "wheel"+i;
+                        Destroy(GameObject.Find(nombreObjetoAEliminar));
+                    }
+                    Destroy(agents[agentID]); // Eliminar el objeto de Unity correspondiente al ID no presente
+                    agents.Remove(agentID);   // Eliminar el elemento del diccionario
+                }
             }
 
             updated = true;

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571336, b: 0.3069219, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -183,7 +183,7 @@ Camera:
     m_Bits: 4294967295
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
-  m_TargetDisplay: 4
+  m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
   m_AllowMSAA: 1
@@ -336,9 +336,10 @@ MonoBehaviour:
   - {fileID: 6489474892919242331, guid: c4b3c3456fbb19c409fd69607225d5f9, type: 3}
   - {fileID: 3245260610691062377, guid: 55e41da1979c41444b0f7ce14975440d, type: 3}
   - {fileID: 4834727557101926612, guid: 05d8519f1e896a74aab58fcc3019e58a, type: 3}
-
-
-
+  - {fileID: 6550729709432471832, guid: 7b8211a5abe4ac649bddb00bc8a07aa5, type: 3}
+  - {fileID: 6489474892919242331, guid: c4b3c3456fbb19c409fd69607225d5f9, type: 3}
+  - {fileID: 4834727557101926612, guid: 05d8519f1e896a74aab58fcc3019e58a, type: 3}
+  luz: {fileID: 0}
   lightPrefab: {fileID: 3165562704358957663, guid: cc08ee9a0bc124374a624b1813a81a7a, type: 3}
   timetogenerate: 5
   timecounter: 0

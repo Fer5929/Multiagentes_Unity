@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class move : MonoBehaviour
 {
-    [SerializeField] Vector3 displacement;
-    [SerializeField] float angle;
-    [SerializeField] AXIS rotationAxis;
+    double displacement=.1;
+    float angle;
+    AXIS rotationAxis = AXIS.Y;
     [SerializeField] AXIS rotationAxiswheels;
 
     Mesh mesh;
@@ -41,18 +41,24 @@ public class move : MonoBehaviour
     Vector3 startp;
     Vector3 stoppos;
 
+    Vector3 prevPositions;
     float t;
     float current;
     float motionTime=1f;
     Vector3 result;
+    
 
     // Start is called before the first frame update
     void Start()
     {
         GameObject wheel1=Instantiate(wheel, new Vector3(0, 0, 0), Quaternion.identity);
+        wheel1.name = gameObject.name + "wheel1";
         GameObject wheel2=Instantiate(wheel, new Vector3(0, 0, 0), Quaternion.identity);
+        wheel2.name = gameObject.name + "wheel2";
         GameObject wheel3=Instantiate(wheel, new Vector3(0, 0, 0), Quaternion.identity);
+        wheel3.name = gameObject.name + "wheel3";
         GameObject wheel4=Instantiate(wheel, new Vector3(0, 0, 0), Quaternion.identity);
+        wheel4.name = gameObject.name + "wheel4";
 
         mesh=GetComponentInChildren<MeshFilter>().mesh;
         meshwheel1=wheel1.GetComponentInChildren<MeshFilter>().mesh;
@@ -98,8 +104,14 @@ public class move : MonoBehaviour
        startp=stoppos;
        stoppos=npos;
        result = stoppos - startp;
-       angle=Mathf.Atan2(result.x, result.z);
-       angle=angle*Mathf.Rad2Deg;
+       if (result.x!=0 || result.z!=0){
+        angle=Mathf.Atan2(result.x, result.z);
+        angle=angle*Mathf.Rad2Deg;
+        displacement=.1;
+        }
+        else{
+            displacement=0;
+        }
        current=0;
     }
     public Vector3 returnpos(){
@@ -150,6 +162,7 @@ public class move : MonoBehaviour
         //remplace vertices in the mesh
         mesh.vertices=newVertices;
         mesh.RecalculateNormals();
+        mesh.RecalculateBounds();
         
         Matrix4x4 scales=HW_Transforms.ScaleMat(scale.x,scale.y,scale.z);
         Matrix4x4 rotateright=HW_Transforms.RotateMat(angle_Right_wheels, rotationAxis_Right_wheels);
@@ -162,7 +175,8 @@ public class move : MonoBehaviour
 
         Matrix4x4 Right = scales * rotateright;
         Matrix4x4 Left = scales * rotateleft;
-        wheelvel=displacement.z*360;
+        wheelvel=(float)displacement*360;
+        print(displacement);
         Matrix4x4 rotatewheel=HW_Transforms.RotateMat(wheelvel*Time.time,rotationAxiswheels);
         Matrix4x4 rotatewheel2=HW_Transforms.RotateMat(-wheelvel*Time.time,rotationAxiswheels);
         // Aplicar transformaciones de las ruedas en relación con el objeto principal
@@ -206,15 +220,19 @@ public class move : MonoBehaviour
         // Aplicar nuevas coordenadas a las mallas de las ruedas
         meshwheel1.vertices = newVerticeswheel1;
         meshwheel1.RecalculateNormals();
+        meshwheel1.RecalculateBounds();
 
         meshwheel2.vertices = newVerticeswheel2;
         meshwheel2.RecalculateNormals();
+        meshwheel2.RecalculateBounds();
 
         meshwheel3.vertices = newVerticeswheel3;
         meshwheel3.RecalculateNormals();
+        meshwheel3.RecalculateBounds();
 
         meshwheel4.vertices = newVerticeswheel4;
         meshwheel4.RecalculateNormals();
+        meshwheel4.RecalculateBounds();
 
 
     }

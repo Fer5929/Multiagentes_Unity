@@ -96,9 +96,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99ff45ca3f1e0f94a8bd0caaa24d51af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displacement: {x: 0, y: 0, z: 0.1}
-  angle: 0
-  rotationAxis: 0
+  displacement: {x: 0, y: 0, z: 0}
   rotationAxiswheels: 0
   wheel: {fileID: 4831984765934646806, guid: b96a318e5bea4ca4f96eacb26541dacc, type: 3}
   posicion_wheel1: {x: -0.72, y: 0.275, z: -1.116}
