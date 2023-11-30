@@ -106,7 +106,7 @@ class CityModel(Model):
         if self.time_counter % 10 == 0:
 
             url = "http://52.1.3.19:8585/api/"
-            endpoint = "validate_attempt"
+            endpoint = "attempts"
 
             data = {
                 "year" : 2023,
