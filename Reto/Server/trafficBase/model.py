@@ -4,6 +4,7 @@ from mesa.space import MultiGrid
 from trafficBase.agent import Road, Traffic_Light, Obstacle, Destination, Car
 import json
 import random
+import requests
 
 class CityModel(Model):
     """ 
@@ -69,6 +70,8 @@ class CityModel(Model):
 
        
         self.running = True
+        self.car_count = 0
+        
 
         #self.datacollector = DataCollector(
          #   agentreporters={"Cars":lambda m: sum(1 for agent in m.schedule.agents if isinstance(agent, Car))})
@@ -82,6 +85,12 @@ class CityModel(Model):
         self.time_counter += 1
         agentPositions = [(b.unique_id) for a, (x, z) in self.grid.coord_iter() for b in a if isinstance(b, Car)]
         print(agentPositions)
+
+        for agent in self.schedule.agents:
+            if isinstance(agent, Car) and agent.des==True:
+                self.car_count += 1
+        print("CAR COUNNT",self.car_count)
+        
         # Check if it's time to generate a new car
         print(f"Current value of timetogenerate: {self.timetogenerate}")
         if self.time_counter % self.timetogenerate == 0:
@@ -93,8 +102,33 @@ class CityModel(Model):
             agent = Car(1000+ self.time_counter, self)
             self.schedule.add(agent)  
             self.grid.place_agent(agent, corner)
-            
-    
-    
 
-        
+        if self.time_counter % 10 == 0:
+
+            url = "http://52.1.3.19:8585/api/"
+            endpoint = "validate_attempt"
+
+            data = {
+                "year" : 2023,
+                "classroom" : 302,
+                "name" : "Equipo 15",
+                "num_cars": self.car_count
+            }
+
+            headers = {
+                "Content-Type": "application/json"
+            }
+
+            response = requests.post(url+endpoint, data=json.dumps(data), headers=headers)
+            print ("LISTO")
+            print("Request " + "successful" if response.status_code == 200 else "failed", "Status code:", response.status_code)
+            print("Response:", response.json())
+
+
+
+            
+                    
+            
+            
+
+            #self.datacollector.collect(self)    
