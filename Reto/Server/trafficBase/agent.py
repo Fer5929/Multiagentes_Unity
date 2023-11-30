@@ -3,6 +3,7 @@ import random
 import networkx as nx
 from mesa import Agent
 
+
 class Car(Agent):
     """
     Agent that moves randomly.
@@ -20,6 +21,7 @@ class Car(Agent):
         self.destination=None
         self.visited_nodes = set()
         self.valid=0
+        self.des=False
         super().__init__(unique_id, model)
 
     def move(self):
@@ -289,8 +291,12 @@ class Car(Agent):
         #print all the agents in a cell 
         
         if self.pos == self.destination.initial_position:
+            self.model.car_count+=1
+            print("DESTINATION")
             self.model.schedule.remove(self)
             self.model.grid.remove_agent(self)
+            
+            
 
 
     

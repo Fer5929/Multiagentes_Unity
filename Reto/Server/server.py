@@ -1,10 +1,12 @@
 # TC2008B. Sistemas Multiagentes y Gráficas Computacionales
 # Python flask server to interact with Unity. Based on the code provided by Sergio Ruiz.
 # Octavio Navarro. October 2023git 
-
+#
 from flask import Flask, request, jsonify
 from trafficBase.model import CityModel
 from trafficBase.agent import *
+from trafficBase.model import *
+import requests
 
 # Size of the board:
 #number_agents = 10
@@ -55,5 +57,31 @@ def updateModel():
         currentStep += 1
         return jsonify({'message':f'Model updated to step {currentStep}.', 'currentStep':currentStep})
 
+
+#Para la presentación
+#http://52.1.3.19:8585/api/validate_attempt
+@app.route('/des', methods=['POST'])
+def data():
+    global citymodel, timecounter
+
+    if request.method == 'POST':
+
+        year= "2023"
+        classroom="class"
+        name="name"
+        #bring car_count from model
+        car_count = citymodel.car_count
+        timecounter = citymodel.time_counter
+        
+        print(request.form)
+        
+        return jsonify({
+            "year": year,
+            "classroom": classroom,
+            "name": name,
+             "car_count": car_count
+            })
 if __name__=='__main__':
     app.run(host="localhost", port=8585, debug=True)
+
+    
