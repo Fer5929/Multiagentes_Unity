@@ -1,9 +1,13 @@
+//S Fernanda Colomo F - A01781983
+//Ian Luis Vázquez Morán - A01027225
+//Codigo usado para la generación de carros de manera random
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class CarGenerator : MonoBehaviour
 {
+    //Carros posibles
     [SerializeField] GameObject CarType1;
     [SerializeField] GameObject CarType2;
     [SerializeField] GameObject CarType3;

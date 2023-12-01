@@ -4,7 +4,9 @@ Functions to work with transformation matrices in 3D
 Gilberto Echeverria
 2022-11-03
 */
-
+//S Fernanda Colomo F - A01781983
+//Ian Luis Vázquez Morán - A01027225
+//Codigo con matrices usadas en move para el moviemiento del carro(visto en clase)
 
 using System.Collections;
 using System.Collections.Generic;

@@ -1,3 +1,6 @@
+//S Fernanda Colomo F - A01781983
+//Ian Luis Vázquez Morán - A01027225
+//Codigo usado para el movimiento del carro, la rotación e instancación de sus ruedas 
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,13 +12,14 @@ public class move : MonoBehaviour
     AXIS rotationAxis = AXIS.Y;
     [SerializeField] AXIS rotationAxiswheels;
 
-    Mesh mesh;
-    Mesh meshwheel1;
+    Mesh mesh;//Carro
+    Mesh meshwheel1;//ruedas 1-4
     Mesh meshwheel2;
     Mesh meshwheel3;
     Mesh meshwheel4;
 
-    [SerializeField] GameObject wheel;
+    [SerializeField] GameObject wheel;//rueda a usar 
+    //posiciones de las ruedas
     [SerializeField] Vector3 posicion_wheel1;
     [SerializeField] Vector3 posicion_wheel2;
     [SerializeField] Vector3 posicion_wheel3;
@@ -26,6 +30,7 @@ public class move : MonoBehaviour
     [SerializeField] AXIS rotationAxis_Left_wheels;
     [SerializeField] Vector3 scale;
 
+//vertices para las ruedas
     Vector3[] baseVertices;
     Vector3[] baseVerticeswheel1;
     Vector3[] baseVerticeswheel2;
@@ -38,8 +43,8 @@ public class move : MonoBehaviour
     Vector3[] newVerticeswheel4;
     float wheelvel;
 
-    Vector3 startp;
-    Vector3 stoppos;
+    Vector3 startp;//posicion inicial del carro
+    Vector3 stoppos;//posicion final del carro
 
     Vector3 prevPositions;
     float t;
@@ -51,6 +56,7 @@ public class move : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //instancia las ruedas 
         GameObject wheel1=Instantiate(wheel, new Vector3(0, 0, 0), Quaternion.identity);
         wheel1.name = gameObject.name + "wheel1";
         GameObject wheel2=Instantiate(wheel, new Vector3(0, 0, 0), Quaternion.identity);
@@ -60,12 +66,13 @@ public class move : MonoBehaviour
         GameObject wheel4=Instantiate(wheel, new Vector3(0, 0, 0), Quaternion.identity);
         wheel4.name = gameObject.name + "wheel4";
 
+        //obtiene las mallas de los objetos
         mesh=GetComponentInChildren<MeshFilter>().mesh;
         meshwheel1=wheel1.GetComponentInChildren<MeshFilter>().mesh;
         meshwheel2=wheel2.GetComponentInChildren<MeshFilter>().mesh;
         meshwheel3=wheel3.GetComponentInChildren<MeshFilter>().mesh;
         meshwheel4=wheel4.GetComponentInChildren<MeshFilter>().mesh;
-
+        //obtiene los vertices de los objetos
         baseVertices=mesh.vertices;
         baseVerticeswheel1 = meshwheel1.vertices;
         baseVerticeswheel2 = meshwheel2.vertices;
@@ -73,13 +80,13 @@ public class move : MonoBehaviour
         baseVerticeswheel4 = meshwheel4.vertices;
 
 
-        //Allocate memory for the copu of the vertex list
+        //se crea un arreglo para guardar los vertices
         newVertices= new Vector3[baseVertices.Length];
         newVerticeswheel1= new Vector3[baseVerticeswheel1.Length];
         newVerticeswheel2= new Vector3[baseVerticeswheel2.Length];
         newVerticeswheel3= new Vector3[baseVerticeswheel3.Length];
         newVerticeswheel4= new Vector3[baseVerticeswheel4.Length];
-        // Copy the coordinates
+        // Copia las coordenadas
         for (int i=0; i<baseVertices.Length; i++){
             newVertices[i]=baseVertices[i];
         }
@@ -91,7 +98,7 @@ public class move : MonoBehaviour
             newVerticeswheel4[i]=baseVerticeswheel4[i];
         }
         
-        Dotransform();
+        Dotransform();//se llama a la funcion para mover el carro
         
     }
 
@@ -100,7 +107,7 @@ public class move : MonoBehaviour
     {
         Dotransform();
     }
-    public void Positions(Vector3 npos){
+    public void Positions(Vector3 npos){//obtiene la posición en la que se encuentra el carro
        startp=stoppos;
        stoppos=npos;
        result = stoppos - startp;
@@ -114,7 +121,7 @@ public class move : MonoBehaviour
         }
        current=0;
     }
-    public Vector3 returnpos(){
+    public Vector3 returnpos(){//regresa la posición del carro en el tiempo determinado
         current += Time.deltaTime;
         t=current/motionTime;
         if (t>1){
@@ -125,7 +132,7 @@ public class move : MonoBehaviour
     }
 
 
-    void Dotransform(){
+    void Dotransform(){//hace las transformaciones del carro en base a returnpos
         Vector3 pos;
         pos =returnpos();
         Matrix4x4 move=HW_Transforms.TranslationMat(pos.x,
