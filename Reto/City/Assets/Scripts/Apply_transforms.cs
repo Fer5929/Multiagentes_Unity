@@ -1,3 +1,6 @@
+//S Fernanda Colomo F - A01781983
+//Ian Luis Vázquez Morán - A01027225
+//Codigo usado en clase para las matrices y transformaciones
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

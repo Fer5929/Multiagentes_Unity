@@ -1,7 +1,11 @@
 # TC2008B. Sistemas Multiagentes y Gráficas Computacionales
 # Python flask server to interact with Unity. Based on the code provided by Sergio Ruiz.
 # Octavio Navarro. October 2023git 
-#
+#S Fernanda Colomo F - A01781983
+#Ian Luis Vázquez Morán - A01027225
+#Código para el servidor en flask para conectar con Unity
+
+"""En este código se hacen todos los Get y Post necesarios para la simulación que se enviará a Unity"""
 from flask import Flask, request, jsonify
 from trafficBase.model import CityModel
 from trafficBase.agent import *
@@ -17,6 +21,7 @@ timecounter = 0
 
 app = Flask("Traffic example")
 
+#se hace un POST para enviar los datos de la simulación tales como el modelo, el tiempo de generacion y el cronometro
 @app.route('/init', methods=['POST'])
 def initModel():
     global currentStep, citymodel, timetogenerate, timecounter
@@ -31,6 +36,7 @@ def initModel():
 
         return jsonify({"message":"Parameters recieved, model initiated."})
 
+#GetAgents obtiene los agentes, en específio la pocisión de los autos 
 @app.route('/getAgents', methods=['GET'])
 def getAgents():
     global citymodel
@@ -40,6 +46,7 @@ def getAgents():
 
         return jsonify({'positions':agentPositions})
 
+#GetLights obtiene los semaforos y su estado
 @app.route('/getLights', methods=['GET'])
 def getLights():
     global citymodel
@@ -48,7 +55,7 @@ def getLights():
         agentPositions = [{"id": str(b.unique_id), "x": x, "y":0, "z":z ,"state":b.state} for a, (x, z) in citymodel.grid.coord_iter() for b in a if isinstance(b, Traffic_Light)]
 
         return jsonify({'positions':agentPositions})
-
+#update actualiza el modelo en cada step dado
 @app.route('/update', methods=['GET'])
 def updateModel():
     global currentStep, citymodel
@@ -58,29 +65,7 @@ def updateModel():
         return jsonify({'message':f'Model updated to step {currentStep}.', 'currentStep':currentStep})
 
 
-#Para la presentación
-#http://52.1.3.19:8585/api/validate_attempt
-@app.route('/des', methods=['POST'])
-def data():
-    global citymodel, timecounter
 
-    if request.method == 'POST':
-
-        year= "2023"
-        classroom="class"
-        name="name"
-        #bring car_count from model
-        car_count = citymodel.car_count
-        timecounter = citymodel.time_counter
-        
-        print(request.form)
-        
-        return jsonify({
-            "year": year,
-            "classroom": classroom,
-            "name": name,
-             "car_count": car_count
-            })
 if __name__=='__main__':
     app.run(host="localhost", port=8585, debug=True)
 

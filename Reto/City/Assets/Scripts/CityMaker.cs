@@ -1,4 +1,7 @@
-/* Sylvia Fernanda Colomo Fuente - A01781983*/
+//S Fernanda Colomo F - A01781983
+//Ian Luis Vázquez Morán - A01027225
+
+//Codigo usado para la instanciaciòn de los edificios, destinos, semaforos y caminos en base al txt y al diccionario
 
 using System.Collections;
 using System.Collections.Generic;
